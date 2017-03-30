@@ -1,0 +1,18 @@
+sudo: false
+language: python
+python:
+    - "2.7"
+    - "3.4"
+env: 
+    - TEST_SUITE='coverage run --source=PyCat setup.py test'
+    - TEST_SUITE='flake8 --exclude=venv,setup.py'
+install: 
+    - pip install -r requirements.txt
+    - pip install python-coveralls
+script: 
+    - echo $TEST_SUITE
+    - echo $TEST_SUITE > test.sh
+    - bash test.sh
+after_success: 
+    - coverage report
+    - coveralls
