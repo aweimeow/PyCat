@@ -1,3 +1,6 @@
+import netaddr
+
+
 def command(socket, cmd):
     "Exec Command"
     pass
@@ -10,6 +13,11 @@ def portCheck(port):
 
 def ipCheck(ip):
     "Boolean: check if an ip address is valid"
+    try:
+        netaddr.IPNetwork(ip)
+        return True
+    except netaddr.AddrFormatError:
+        return False
     pass
 
 
