@@ -224,3 +224,17 @@ class TestEquivalenceClass:
         assert not pycat.ipCheck("128.-128,.128")
         assert not pycat.ipCheck("128.400,.128")
         assert not pycat.ipCheck("128.abc,.128")
+
+
+class TestEdge:
+    def test_WeakNormal(self):
+        pass
+
+    def test_WeakRobust(self):
+        pass
+
+    def test_StrongNormal(self):
+        pass
+
+    def test_StrongRobust(self):
+        pass
