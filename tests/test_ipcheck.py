@@ -228,13 +228,28 @@ class TestEquivalenceClass:
 
 class TestEdge:
     def test_WeakNormal(self):
-        pass
+        assert pycat.ipCheck("0.0.0.0")
+        assert pycat.ipCheck("0 .0 .0 .0 ")
 
     def test_WeakRobust(self):
-        pass
+        assert not pycat.ipCheck("-1.-1.-1.-1")
+        assert not pycat.ipCheck("256.256.256.256")
+        assert not pycat.ipCheck("a.a.a.a")
+        assert not pycat.ipCheck("0,0,0,0")
+        assert not pycat.ipCheck("0...")
 
     def test_StrongNormal(self):
+        "Same as weak normal test"
         pass
 
     def test_StrongRobust(self):
-        pass
+        assert not pycat.ipCheck("-1,-1,-1,-1")
+        assert not pycat.ipCheck("-1...")
+        assert not pycat.ipCheck("256,256,256,256")
+        assert not pycat.ipCheck("256...")
+        assert not pycat.ipCheck("a,a,a,a")
+        assert not pycat.ipCheck("a...")
+        assert not pycat.ipCheck("0,,,")
+        assert not pycat.ipCheck("-1,,,")
+        assert not pycat.ipCheck("256,,,")
+        assert not pycat.ipCheck("a,,,")
