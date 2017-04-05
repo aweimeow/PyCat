@@ -1,5 +1,6 @@
 from PyCat import pycat
 
+
 class TestBoundaryValue:
     def test_WeakNormal(self):
         assert pycat.ipCheck("0.128.128.128")
@@ -7,10 +8,10 @@ class TestBoundaryValue:
 
         assert pycat.ipCheck("128.0.128.128")
         assert pycat.ipCheck("128.255.128.128")
-        
+
         assert pycat.ipCheck("128.128.0.128")
         assert pycat.ipCheck("128.128.255.128")
-        
+
         assert pycat.ipCheck("128.128.128.0")
         assert pycat.ipCheck("128.128.128.255")
 
