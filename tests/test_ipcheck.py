@@ -253,3 +253,13 @@ class TestEdge:
         assert not pycat.ipCheck("-1,,,")
         assert not pycat.ipCheck("256,,,")
         assert not pycat.ipCheck("a,,,")
+
+
+class TestDecisionTableBased:
+    def test_RuleA(self):
+        "3 points, 4 words, 0 <= numbers <= 255"
+        assert pycat.ipCheck("128.128.128.128")
+
+    def test_RuleB(self):
+        "number of points != 3 or number of words != 4 or words are not numbers or numbers < 0 or numbers > 255"
+        assert not pycat.ipCheck("abc.-128,400")
