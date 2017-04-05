@@ -1,4 +1,4 @@
 coverage==4.3.4
 flake8==3.3.0
 pytest==3.0.7
-
+netaddr==0.7.19
