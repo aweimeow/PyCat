@@ -261,5 +261,5 @@ class TestDecisionTableBased:
         assert pycat.ipCheck("128.128.128.128")
 
     def test_RuleB(self):
-        "number of points != 3 or number of words != 4 or words are not numbers or numbers < 0 or numbers > 255"
+        "Otherwise"
         assert not pycat.ipCheck("abc.-128,400")
