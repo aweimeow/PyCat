@@ -195,3 +195,17 @@ class TestBoundaryValue:
         assert not pycat.ipCheck("256.-1.256.256")
         assert not pycat.ipCheck("-1.256.256.256")
         assert not pycat.ipCheck("256.256.256.256")
+
+
+class TestEquivalenceClass:
+    def test_WeakNormal(self):
+        pass
+
+    def test_WeakRobust(self):
+        pass
+
+    def test_StrongNormal(self):
+        pass
+
+    def test_StrongRobust(self):
+        pass
