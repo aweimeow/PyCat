@@ -199,13 +199,28 @@ class TestBoundaryValue:
 
 class TestEquivalenceClass:
     def test_WeakNormal(self):
-        pass
+        assert pycat.ipCheck("128.128.128.128")
+        assert pycat.ipCheck("128.128 .128.128")
 
     def test_WeakRobust(self):
-        pass
+        assert not pycat.ipCheck("128.-128.128.128")
+        assert not pycat.ipCheck("128.400.128.128")
+        assert not pycat.ipCheck("128.abc.128.128")
+        assert not pycat.ipCheck("128.128,128.128")
+        assert not pycat.ipCheck("128..128.128")
 
     def test_StrongNormal(self):
+        "Same as weak normal test"
         pass
 
     def test_StrongRobust(self):
-        pass
+        assert not pycat.ipCheck("128.-128,128.128")
+        assert not pycat.ipCheck("128.-128..128")
+        assert not pycat.ipCheck("128.400,128.128")
+        assert not pycat.ipCheck("128.400..128")
+        assert not pycat.ipCheck("128.abc,128.128")
+        assert not pycat.ipCheck("128.abc..128")
+        assert not pycat.ipCheck("128.,128.128")
+        assert not pycat.ipCheck("128.-128,.128")
+        assert not pycat.ipCheck("128.400,.128")
+        assert not pycat.ipCheck("128.abc,.128")
