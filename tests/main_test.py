@@ -9,6 +9,66 @@ import json
 from PyCat import pycat
 
 
+class NormalBoundary:
+    def test_normal(self):
+        """ IP """
+        assert json.load(pycat.main("-t 0.0.0.0"))["success"]  # min
+        assert json.load(pycat.main("-t 0.0.0.1"))["success"]  # min+1
+        assert json.load(pycat.main("-t 255.255.255.254"))["success"]  # max-1
+        assert json.load(pycat.main("-t 255.255.255.255"))["success"]  # max
+        assert json.load(pycat.main("-t 0.0.0.0/16"))["success"]
+        assert json.load(pycat.main("-t 0.0.0.1/16"))["success"]
+        assert json.load(pycat.main("-t 255.255.255.254/16"))["success"]
+        assert json.load(pycat.main("-t 255.255.255.255/16"))["success"]
+        assert json.load(pycat.main("-t 0.0.0.0 -p 17768"))["success"]
+        assert json.load(pycat.main("-t 0.0.0.1 -p 17768"))["success"]
+        assert json.load(pycat.main("-t 255.255.255.254 -p 17768"))["success"]
+        assert json.load(pycat.main("-t 255.255.255.255 -p 17768"))["success"]
+        assert json.load(pycat.main("-t 0.0.0.0/16 -p 17768"))["success"]
+        assert json.load(pycat.main("-t 0.0.0.1/16 -p 17768"))["success"]
+        assert json.load(pycat.main(
+            "-t 255.255.255.254/16 -p 17768"))["success"]
+        assert json.load(pycat.main(
+            "-t 255.255.255.255/16 -p 17768"))["success"]
+        """ mask """
+        # min
+        assert json.load(pycat.main("-t 128.128.128.128/0"))["success"]
+        # min+1
+        assert json.load(pycat.main("-t 128.128.128.128/1"))["success"]
+        # max-1
+        assert json.load(pycat.main("-t 128.128.128.128/31"))["success"]
+        # max
+        assert json.load(pycat.main("-t 128.128.128.128/32"))["success"]
+        assert json.load(pycat.main(
+            "-t 128.128.128.128/0 -p 17768"))["success"]
+        assert json.load(pycat.main(
+            "-t 128.128.128.128/1 -p 17768"))["success"]
+        assert json.load(pycat.main(
+            "-t 128.128.128.128/31 -p 17768"))["success"]
+        assert json.load(pycat.main(
+            "-t 128.128.128.128/32 -p 17768"))["success"]
+        """ port """
+        # min
+        assert json.load(pycat.main("-t 128.128.128.128 -p 0"))["success"]
+        # min+1
+        assert json.load(pycat.main("-t 128.128.128.128 -p 1"))["success"]
+        # max-1
+        assert json.load(pycat.main("-t 128.128.128.128 -p 65534"))["success"]
+        # max
+        assert json.load(pycat.main("-t 128.128.128.128 -p 65535"))["success"]
+        assert json.load(pycat.main("-t 128.128.128.128/16 -p 0"))["success"]
+        assert json.load(pycat.main("-t 128.128.128.128/16 -p 1"))["success"]
+        assert json.load(pycat.main(
+            "-t 128.128.128.128/16 -p 65534"))["success"]
+        assert json.load(pycat.main(
+            "-t 128.128.128.128/16 -p 65535"))["success"]
+        """ All middle """
+        assert json.load(pycat.main("-t 128.128.128.128"))["success"]
+        assert json.load(pycat.main("-t 128.128.128.128/16"))["success"]
+        assert json.load(pycat.main(
+            "-t 128.128.128.128/16 -p 17768"))["success"]
+
+
 class Equivalence:
     """ Normal Equivalence Class """
     def test_Normal(self):
