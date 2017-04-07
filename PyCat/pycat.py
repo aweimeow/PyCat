@@ -1,3 +1,4 @@
+import argparse
 import netaddr
 
 
@@ -21,6 +22,16 @@ def ipCheck(ip):
     pass
 
 
+def main(ip, port):
+    pass
+
+
 if __name__ == '__main__':
     "Using argparse to get ip, port from input"
-    pass
+    parser = argparse.ArgumentParser(description='PyCat')
+    parser.add_argument('-t', '--ip', type=str, help='IP for scan')
+    parser.add_argument('-p', '--port', type=int, help='Port for scan')
+
+    pycat = parser.parse_args()
+
+    main(pycat.ip, pycat.port)
