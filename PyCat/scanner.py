@@ -35,4 +35,3 @@ class Scanner:
                 self.report["ports"][port] = False
 
             sock.close()
-
