@@ -23,3 +23,17 @@ class TestBoundaryValue:
     def test_StrongRobust(self):
         "Same as weak robust test"
         pass
+
+
+class TestEquivalenceClass:
+    def test_WeakNormal(self):
+        pass
+
+    def test_WeakRobust(self):
+        pass
+
+    def test_StrongNormal(self):
+        pass
+
+    def test_StrongRobust(self):
+        pass
