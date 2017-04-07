@@ -60,74 +60,67 @@ class TestNormalBoundary:
         assert json.loads(pycat.main("128.128.128.128/16", "17768"))["success"]
 
 
-class Equivalence:
+class TestEquivalence:
     """ Normal Equivalence Class """
     def test_Normal(self):
         """ Weak Normal & Strong Normal Equivalence Class """
-        assert json.load(pycat.main("-t 128.128.128.128"))["success"]
-        assert json.load(pycat.main("-t 128.128.128.128/16"))["success"]
-        assert json.load(pycat.main("-t 128.128.128.128 -p 17768"))["success"]
+        assert json.loads(pycat.main("128.128.128.128", "17768"))["success"]
+        assert json.loads(pycat.main("128.128.128.128/16", "17768"))["success"]
 
     """ Robust Equivalence Class """
     def test_Robust(self):
         """ Weak & Strong Robust Equivalence Class """
-        # ip min-1
-        assert not json.load(pycat.main("-t -1.255.255.255"))["success"]
-        # mask min-1
-        assert not json.load(pycat.main("-t 128.128.128.128/-1"))["success"]
-        # ip min-1
-        assert not json.load(pycat.main("-t -1.255.255.255/16"))["success"]
-        # ip min-1
-        assert not json.load(pycat.main(
-            "-t -1.255.255.255 -p 17768"))["success"]
-        # port min-1
-        assert not json.load(pycat.main("-t 128.128.128.128 -p -1"))["success"]
-        # ip min-1
-        assert not json.load(pycat.main(
-            "-t -1.255.255.255/16 -p 17768"))["success"]
-        # mask min-1
-        assert not json.load(pycat.main(
-            "-t 128.128.128.128/-1 -p 17768"))["success"]
-        # port min-1
-        assert not json.load(pycat.main(
-            "-t 128.128.128.128/16 -p -1"))["success"]
-        """ Weak Robust Equivalence Class """
-        # ip max+1
-        assert not json.load(pycat.main("-t 255.255.255.256"))["success"]
-        # ip max+1
-        assert not json.load(pycat.main("-t 255.255.255.256/16"))["success"]
-        # mask max+1
-        assert not json.load(pycat.main("-t 128.128.128.128/33"))["success"]
-        # ip max+1
-        assert not json.load(pycat.main(
-            "-t 255.255.255.256 -p 17768"))["success"]
-        # port max+1
-        assert not json.load(pycat.main(
-            "-t 128.128.128.128 -p 65536"))["success"]
-        # ip max+1
-        assert not json.load(pycat.main(
-            "-t 255.255.255.256/16 -p 17768"))["success"]
-        # mask max+1
-        assert not json.load(pycat.main(
-            "-t 128.128.128.128/33 -p 17768"))["success"]
-        # port max+1
-        assert not json.load(pycat.main(
-            "-t 128.128.128.128/16 -p 65536"))["success"]
+        """ IP part """
+        # min - 1
+        assert not json.loads(pycat.main("-1.255.255.255", "17768"))["success"]
+        assert not json.loads(pycat.main(
+            "-1.255.255.255/16", "17768"))["success"]
+        # max + 1
+        assert not json.loads(pycat.main(
+            "255.255.255.256", "17768"))["success"]
+        assert not json.loads(pycat.main(
+            "255.255.255.256/16", "17768"))["success"]
+        """ Submask part """
+        # min - 1
+        assert not json.loads(pycat.main(
+            "128.128.128.128/-1", "17768"))["success"]
+        # max + 1
+        assert not json.loads(pycat.main(
+            "128.128.128.128/33", "17768"))["success"]
+        """ Port """
+        # min - 1
+        assert not json.loads(pycat.main("128.128.128.128", "-1"))["success"]
+        assert not json.loads(pycat.main(
+            "128.128.128.128/16", "-1"))["success"]
+        # max + 1
+        assert not json.loads(pycat.main(
+            "128.128.128.128", "65536"))["success"]
+        assert not json.loads(pycat.main(
+            "128.128.128.128/16", "65536"))["success"]
         """ Strong Robust Equivalence Class """
-        # ip & mask min-1
-        assert not json.load(pycat.main("-t -1.255.255.255/-1"))["success"]
-        # ip & mask min-1
-        assert not json.load(pycat.main(
-            "-t -1.255.255.255/-1 -p 17768"))["success"]
-        # mask & port min-1
-        assert not json.load(pycat.main(
-            "-t 128.128.128.128/-1 -p -1"))["success"]
-        # ip & port min-1
-        assert not json.load(pycat.main(
-            "-t -1.255.255.255/16 -p -1"))["success"]
-        # ip , mask & port min-1
-        assert not json.load(pycat.main(
-            "-t -1.255.255.255/-1 -p -1"))["success"]
+        """ IP and subnet """
+        assert not json.loads(pycat.main(
+            "-1.255.255.255/-1", "17768"))["success"]
+        assert not json.loads(pycat.main(
+            "255.255.255.256/33", "17768"))["success"]
+        """ submask and port """
+        assert not json.loads(pycat.main(
+            "128.128.128.128/-1", "-1"))["success"]
+        assert not json.loads(pycat.main(
+            "128.128.128.128/33", "65536"))["success"]
+        """ ip and port """
+        # min - 1
+        assert not json.loads(pycat.main("-1.255.255.255", "-1"))["success"]
+        assert not json.loads(pycat.main("-1.255.255.255/16", "-1"))["success"]
+        # max + 1
+        assert not json.loads(pycat.main(
+            "255.255.255.256", "65536"))["success"]
+        assert not json.loads(pycat.main(
+            "255.255.255.256/16", "65536"))["success"]
+        """ All """
+        assert not json.loads(pycat.main("-1.255.255.255/-1", "-1"))["success"]
+        assert not json.loads(pycat.main(
+            "255.255.255.256/32", "65536"))["success"]
 
 
 class DecisionTable:
