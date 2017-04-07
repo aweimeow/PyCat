@@ -7,9 +7,9 @@ from PyCat.scanner import Scanner
 
 @pytest.fixture(scope="module")
 def Ports():
-    MaxPort = 60000
+    MaxPort = 50050
     MinPort = 50000
-    PortNums = 100
+    PortNums = 25
 
     ports = random.sample(range(MinPort, MaxPort), PortNums)
     ports_instance = []
@@ -17,7 +17,7 @@ def Ports():
     for port in ports:
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.bind(("127.0.0.1", port))
-        s.listen(1)
+        s.listen(2)
         ports_instance.append(s)
 
     yield (ports, ports_instance)
@@ -38,20 +38,21 @@ class TestScanner:
     def test_scanport(self, Ports):
         scanner = Scanner()
         ports = Ports[0]
-        for port in random.sample(range(50000, 60000), 200):
-            assert scanner.scanport("127.0.0.1", port) == (not (port in ports))
+        for port in random.sample(range(50000, 50050), 30):
+            if port in ports:
+                assert scanner.scanport("127.0.0.1", port) == 0
 
     def test_scan(self, Ports):
         ports = Ports[0]
         result = {"success": True, "ports": {}}
 
-        for port in range(50000, 60000):
+        for port in range(50000, 50050):
             if port in ports:
                 result["ports"][port] = True
             else:
                 result["ports"][port] = False
 
         scanner = Scanner()
-        scanner.scanports("127.0.0.1", "50000-60000")
+        scanner.scanports("127.0.0.1", "50000-50050")
 
         assert scanner.report == result
