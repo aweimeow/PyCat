@@ -27,13 +27,22 @@ class TestBoundaryValue:
 
 class TestEquivalenceClass:
     def test_WeakNormal(self):
-        pass
+        assert pycat.portCheck(32768)
+        assert pycat.portCheck("32768")
 
     def test_WeakRobust(self):
-        pass
+        assert not pycat.portCheck(-32768)
+        assert not pycat.portCheck("-32768")
+
+        assert not pycat.portCheck(75535)
+        assert not pycat.portCheck("75535")
+
+        assert not pycat.portCheck("abc#$%")
 
     def test_StrongNormal(self):
+        "Same as weak normal test"
         pass
 
     def test_StrongRobust(self):
+        "Same as weak robust test"
         pass
