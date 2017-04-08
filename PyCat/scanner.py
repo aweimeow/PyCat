@@ -8,7 +8,7 @@ class Scanner:
     def scanip(self, ip):
         try:
             socket.gethostbyaddr(ip)
-        except socket.herror:
+        except:
             return False
         return True
 
@@ -23,6 +23,7 @@ class Scanner:
 
         if not self.scanip(ip):
             self.report = {"success": False, "ports": {}}
+            return
 
         self.report = {"success": True, "ports": {}}
 
