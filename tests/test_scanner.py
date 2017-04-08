@@ -34,6 +34,7 @@ class TestScanner:
         scanner = Scanner()
         assert scanner.scanip("127.0.0.1")
         assert scanner.scanip("8.8.8.8")
+        assert not scanner.scanip("256.256.256.256")
 
     def test_scanport(self, Ports):
         scanner = Scanner()
@@ -42,7 +43,7 @@ class TestScanner:
             if port in ports:
                 assert scanner.scanport("127.0.0.1", port) == 0
 
-    def test_scan(self, Ports):
+    def test_scan_success(self, Ports):
         ports = Ports[0]
         result = {"success": True, "ports": {}}
 
@@ -54,5 +55,13 @@ class TestScanner:
 
         scanner = Scanner()
         scanner.scanports("127.0.0.1", "50000-50050")
+
+        assert scanner.report == result
+
+    def test_scan_failure(self):
+        result = {"success": False, "ports": {}}
+
+        scanner = Scanner()
+        scanner.scanports("256.256.256.256", "0-65535")
 
         assert scanner.report == result
