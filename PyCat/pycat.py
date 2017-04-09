@@ -1,4 +1,4 @@
-import netaddr
+import ipaddress
 
 
 def command(socket, cmd):
@@ -14,9 +14,9 @@ def portCheck(port):
 def ipCheck(ip):
     "Boolean: check if an ip address is valid"
     try:
-        netaddr.IPNetwork(ip)
+        ipaddress.IPv4Network(unicode(ip))
         return True
-    except netaddr.AddrFormatError:
+    except ValueError:
         return False
     pass
 
