@@ -50,13 +50,26 @@ class TestEquivalenceClass:
 
 class TestEdge:
     def test_WeakNormal(self):
-        pass
+        assert pycat.portCheck(1)
+        assert pycat.portCheck("1")
+
+        assert pycat.portCheck(65534)
+        assert pycat.portCheck("65534")
 
     def test_WeakRobust(self):
-        pass
+        assert not pycat.portCheck(-2)
+        assert not pycat.portCheck("-2")
+
+        assert not pycat.portCheck(65537)
+        assert not pycat.portCheck("65537")
+
+        assert not pycat.portCheck("")
+        assert not pycat.portCheck("@@@@@")
 
     def test_StrongNormal(self):
+        "Same as weak normal test"
         pass
 
     def test_StrongRobust(self):
+        "Same as weak robust test"
         pass
