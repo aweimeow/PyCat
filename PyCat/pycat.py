@@ -8,7 +8,13 @@ def command(socket, cmd):
 
 def portCheck(port):
     "Boolean: check if a port is valid"
-    pass
+    try:
+        if 0 <= int(port) <= 65535:
+            return True
+        else:
+            return False
+    except ValueError:
+        return False
 
 
 def ipCheck(ip):
