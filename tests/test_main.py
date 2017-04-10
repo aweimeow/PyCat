@@ -143,7 +143,7 @@ class TestDecisionTable:
         assert not json.loads(pycat.main("128/128/128/128", "22"))["success"]
         assert not json.loads(pycat.main(
             "128.128.128.128", "22.80"))["success"]
-        assert json.loads(pycat.main(
+        assert not json.loads(pycat.main(
             "128.128.128.128", "22,80.443"))["success"]
         assert not json.loads(pycat.main(
             "128.128.128.128", "22/80.443"))["success"]

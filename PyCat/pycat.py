@@ -1,5 +1,7 @@
 import argparse
 import netaddr
+import sys
+import json
 
 
 def command(socket, cmd):
@@ -51,18 +53,33 @@ def ipCheck(ip):
 
 
 def main(ip, port):
-    pass
+    if not ipCheck(ip):
+        sys.stderr.write("ERROR: Invalid ip\n")
+        return json.dumps({"success": False})
 
+    ports = []
+    if port is None:
+        ports = ["0-1023"]
+    elif port.count("-") == 1:
+        p = port.split("-")
+        if len(p) != 2 or not portCheck(p[0]) or not portCheck(p[1]):
+            sys.stderr.write("ERROR: Invalid port\n")
+            return json.dumps({"success": False})
+    else:
+        for x in port.split(","):
+            if not portCheck(x):
+                sys.stderr.write("ERROR: Invalid port\n")
+                return json.dumps({"success": False})
+            ports.append(x)
 
-def main(ip, port):
-    pass
+    return json.dumps({"success": True})
 
 
 if __name__ == '__main__':
     "Using argparse to get ip, port from input"
     parser = argparse.ArgumentParser(description='PyCat')
     parser.add_argument('-t', '--ip', type=str, help='IP for scan')
-    parser.add_argument('-p', '--port', type=int, help='Port for scan')
+    parser.add_argument('-p', '--port', type=str, help='Port for scan')
 
     pycat = parser.parse_args()
 
