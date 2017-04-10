@@ -8,17 +8,45 @@ def command(socket, cmd):
 
 def portCheck(port):
     "Boolean: check if a port is valid"
-    pass
+    try:
+        if 0 <= int(port) <= 65535:
+            return True
+        else:
+            return False
+    except ValueError:
+        return False
 
 
 def ipCheck(ip):
     "Boolean: check if an ip address is valid"
     try:
-        netaddr.IPNetwork(ip)
-        return True
-    except netaddr.AddrFormatError:
+        if ip.count("/") == 1:
+            ip, netmask = ip.split('/')
+            p = list(map(lambda x: int(x), ip.split(".")))
+            q = list(map(lambda x: int(x), netmask.split(".")))
+            for x in p:
+                if not 0 <= x <= 255:
+                    return False
+            if len(q) == 4:
+                try:
+                    mask = netaddr.IPAddress(netmask)
+                    if not (mask.is_netmask() or mask.is_hostmask()):
+                        return False
+                except netaddr.AddrFormatError:
+                    return False
+            elif len(q) == 1:
+                if not 0 <= q[0] <= 32:
+                    return False
+        elif ip.count(".") == 3:
+            p = list(map(lambda x: int(x), ip.split(".")))
+            for x in p:
+                if not 0 <= x <= 255:
+                    return False
+        else:
+            return False
+    except ValueError:
         return False
-    pass
+    return True
 
 
 if __name__ == '__main__':
