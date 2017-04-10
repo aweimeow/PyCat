@@ -54,6 +54,10 @@ def main(ip, port):
     pass
 
 
+def main(ip, port):
+    pass
+
+
 if __name__ == '__main__':
     "Using argparse to get ip, port from input"
     parser = argparse.ArgumentParser(description='PyCat')
