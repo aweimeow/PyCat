@@ -78,7 +78,8 @@ def main(ip, port):
 if __name__ == '__main__':
     "Using argparse to get ip, port from input"
     parser = argparse.ArgumentParser(description='PyCat')
-    parser.add_argument('-t', '--ip', type=str, help='IP for scan')
+    parser.add_argument('-t', '--ip', type=str,
+                        help='IP for scan', required=True)
     parser.add_argument('-p', '--port', type=str, help='Port for scan')
 
     pycat = parser.parse_args()
