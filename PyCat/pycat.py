@@ -52,7 +52,7 @@ def ipCheck(ip):
     return True
 
 
-def main(ip, port):
+def main(ip, port=None):
     if not ipCheck(ip):
         sys.stderr.write("ERROR: Invalid ip\n")
         return json.dumps({"success": False})
