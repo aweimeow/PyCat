@@ -22,4 +22,3 @@ class TestCoverage:
 
         assert scanner.scanip("127.0.0.1")
         assert not scanner.scanip("256.256.256.256")
-
