@@ -75,7 +75,7 @@ def main(ip, port):
     return json.dumps({"success": True})
 
 
-if __name__ == '__main__':
+def _main():
     "Using argparse to get ip, port from input"
     parser = argparse.ArgumentParser(description='PyCat')
     parser.add_argument('-t', '--ip', type=str,

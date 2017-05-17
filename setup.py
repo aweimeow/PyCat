@@ -1,6 +1,12 @@
 import setuptools
 from distutils.core import setup
 
+entry_points = {
+    'console_scripts': [
+        'pycat = PyCat.pycat:_main'
+    ]
+}
+
 setup(
   name='PyCat',
   packages=['PyCat'],
@@ -15,4 +21,5 @@ setup(
   classifiers=[],
   setup_requires=['pytest-runner'],
   tests_require=['pytest'],
+  entry_points=entry_points,
 )
