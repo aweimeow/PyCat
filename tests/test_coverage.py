@@ -40,14 +40,14 @@ class TestCoverage:
         assert pycat.ipCheck("140.113.1.1/255.255.0.0")
 
         "Paths for main"
-        assert not json.loads(pycat.main("140.113.1.1/-16", "32768"))["success"]
+        assert not json.loads(pycat.main("140.113.1.1/-1", "32768"))["success"]
         assert json.loads(pycat.main("140.113.1.1"))["success"]
         assert not json.loads(pycat.main("140.113.1.1", "1-"))["success"]
-        assert not json.loads(pycat.main("140.113.1.1", "65536-32768"))["success"]
-        assert not json.loads(pycat.main("140.113.1.1", "32768-65536"))["success"]
-        assert not json.loads(pycat.main("140.113.1.1", "0,32768,65536"))["success"]
-        assert json.loads(pycat.main("140.113.1.1", "32768-65535"))["success"]
-        assert json.loads(pycat.main("140.113.1.1", "0,32768,65535"))["success"]
+        assert not json.loads(pycat.main("140.113.1.1", "65536-0"))["success"]
+        assert not json.loads(pycat.main("140.113.1.1", "0-65536"))["success"]
+        assert not json.loads(pycat.main("140.113.1.1", "0,65536"))["success"]
+        assert json.loads(pycat.main("140.113.1.1", "0-65535"))["success"]
+        assert json.loads(pycat.main("140.113.1.1", "0,65535"))["success"]
         assert json.loads(pycat.main("140.113.1.1", "32768"))["success"]
 
         "Paths for scanner"
