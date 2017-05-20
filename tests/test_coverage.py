@@ -54,3 +54,31 @@ class TestCoverage:
         scanner = Scanner()
         assert not scanner.scanip("256.256.256.256")
         assert scanner.scanip("127.0.0.1")
+
+    def test_pycat_mcdc(self):
+        assert pycat.portCheck(12345)
+        assert not pycat.portCheck(66666)
+        assert not pycat.portCheck("abc")
+
+        assert pycat.ipCheck("1.1.1.1")
+        assert not pycat.ipCheck("1.1.1.256")
+        assert not pycat.ipCheck("pycat!")
+        assert not pycat.ipCheck("1.1.1.256/25")
+        assert pycat.ipCheck("1.1.1.1/22")
+        assert not pycat.ipCheck("1.1.1.1/66666")
+        assert not pycat.ipCheck("1.1.1.1/255.255.255.256")
+        assert not pycat.ipCheck("1.1.1.1/a.b.c.d")
+        assert not pycat.ipCheck("1.1.1.1/1.2.3.4")
+
+        assert not json.loads(pycat.main("1.1.1.256", "123"))["success"]
+        assert json.loads(pycat.main("1.1.1.1"))["success"]
+        assert json.loads(pycat.main("1.1.1.1", "25-30"))["success"]
+        assert not json.loads(pycat.main("1.1.1.1", "25-30-35"))["success"]
+        assert not json.loads(pycat.main("1.1.1.1", "25-a"))["success"]
+        assert not json.loads(pycat.main("1.1.1.1", "a-25"))["success"]
+        assert json.loads(pycat.main("1.1.1.1", "25,30"))["success"]
+        assert not json.loads(pycat.main("1.1.1.1", "25,a"))["success"]
+
+        scanner = Scanner()
+        assert scanner.scanip("127.0.0.1")
+        assert not scanner.scanip("1.1.1.256")
