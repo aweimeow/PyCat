@@ -55,6 +55,43 @@ class TestCoverage:
         assert not scanner.scanip("256.256.256.256")
         assert scanner.scanip("127.0.0.1")
 
+    def test_pycat_c2(self):
+        "Paths for portCheck"
+        assert pycat.portCheck(32768)
+        assert not pycat.portCheck(-32768)
+        assert not pycat.portCheck("abcde")
+
+        "Paths for ipCheck"
+        assert pycat.ipCheck("140.113.1.1")
+        assert not pycat.ipCheck("/255.255.255.255")
+        assert not pycat.ipCheck("-1.-1.-1.-1/-1.-1.-1.-1")
+        assert not pycat.ipCheck("128.128.128.-128/16")
+        assert not pycat.ipCheck("128.128.128.128/255.255.254.255")
+        assert not pycat.ipCheck("128.128.128.128/255.255.256.255")
+        assert not pycat.ipCheck("128.128.128.128/-16")
+        assert not pycat.ipCheck("128.128.128.-128")
+        assert not pycat.ipCheck("128.128")
+        assert not pycat.ipCheck("128.128.128.128/255.255.255.abc")
+        assert pycat.ipCheck("140.113.1.1/255.255.0.0")
+
+        "Paths for main"
+        assert not json.loads(pycat.main("8.8.8.8", "25,ss"))["success"]
+        assert not json.loads(pycat.main("8.8.8.8", "-1"))["success"]
+        assert not json.loads(pycat.main("8.8.8.8/-1", "32768"))["success"]
+        assert json.loads(pycat.main("8.8.8.8"))["success"]
+        assert not json.loads(pycat.main("8.8.8.8", "1-"))["success"]
+        assert not json.loads(pycat.main("8.8.8.8", "65536-0"))["success"]
+        assert not json.loads(pycat.main("8.8.8.8", "0-65536"))["success"]
+        assert not json.loads(pycat.main("8.8.8.8", "0,65536"))["success"]
+        assert json.loads(pycat.main("8.8.8.8", "0-65535"))["success"]
+        assert json.loads(pycat.main("8.8.8.8", "0,65535"))["success"]
+        assert json.loads(pycat.main("8.8.8.8", "32768"))["success"]
+
+        "Paths for scanner"
+        scanner = Scanner()
+        assert not scanner.scanip("256.256.256.256")
+        assert scanner.scanip("127.0.0.1")
+
     def test_pycat_mcdc(self):
         assert pycat.portCheck(12345)
         assert not pycat.portCheck(66666)
