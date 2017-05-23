@@ -17,7 +17,7 @@ def Ports():
     for port in ports:
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.bind(("127.0.0.1", port))
-        s.listen(2)
+        s.listen(3)
         ports_instance.append(s)
 
     yield (ports, ports_instance)
@@ -45,7 +45,7 @@ class TestScanner:
 
     def test_scan_success(self, Ports):
         ports = Ports[0]
-        result = {"success": True, "ports": {}}
+        result = {"success": True, "ports": {}, "services": {}}
 
         for port in range(50000, 50050):
             if port in ports:
@@ -58,8 +58,12 @@ class TestScanner:
 
         assert scanner.report == result
 
+    def test_scan_service(self):
+        scanner = Scanner()
+        assert "OpenSSH" in scanner.scanservice("140.113.194.250", 22)
+
     def test_scan_failure(self):
-        result = {"success": False, "ports": {}}
+        result = {"success": False, "ports": {}, "services": {}}
 
         scanner = Scanner()
         scanner.scanports("256.256.256.256", "0-65535")
