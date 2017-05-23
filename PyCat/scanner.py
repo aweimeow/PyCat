@@ -31,7 +31,7 @@ class Scanner:
 
         # Or Try to Connect with http Header
 
-        tn.write('GET / HTTP/1.0\n\n')
+        tn.write(b'GET / HTTP/1.0\n\n')
         infos = [tn.read_eager() for x in range(3)]
         tn.close()
 
