@@ -60,7 +60,7 @@ class TestScanner:
 
     def test_scan_service(self):
         scanner = Scanner()
-        assert "OpenSSH" in scanner.scanservice("140.113.194.250", 22)
+        assert b"OpenSSH" in scanner.scanservice("140.113.194.250", 22)
 
     def test_scan_failure(self):
         result = {"success": False, "ports": {}, "services": {}}
