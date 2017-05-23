@@ -22,7 +22,7 @@ class Scanner:
     def scanservice(self, ip, port):
         tn = telnetlib.Telnet(host=ip, port=port)
 
-        time.sleep(0.1)
+        time.sleep(0.3)
         service_info = tn.read_eager()
 
         if service_info:
