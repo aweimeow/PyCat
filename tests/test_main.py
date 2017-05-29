@@ -7,6 +7,7 @@
 # -c: command eg: ls
 import json
 from PyCat import pycat
+pycat.F_SCAN = False
 
 
 class TestNormalBoundary:

@@ -47,7 +47,7 @@ class TestScanner:
         ports = Ports[0]
         result = {"success": True, "ports": {}, "services": {}}
 
-        for port in range(50000, 50050):
+        for port in range(50000, 50051):
             if port in ports:
                 result["ports"][port] = True
             else:

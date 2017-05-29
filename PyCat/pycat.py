@@ -2,7 +2,8 @@ import argparse
 import netaddr
 import sys
 import json
-from scanner import Scanner
+from PyCat.scanner import Scanner
+F_SCAN = True
 
 
 def command(socket, cmd):
@@ -75,13 +76,14 @@ def main(ip, port=None):
 
     res = {}
     res["success"] = True
-    for addr in netaddr.IPNetwork(ip).iter_hosts():
-        scanner = Scanner()
-        key = addr.__str__()
-        res[key] = []
-        for p in ports:
-            scanner.scanports(key, p)
-            res[key].append(scanner.report)
+    if F_SCAN:
+        for addr in netaddr.IPNetwork(ip).iter_hosts():
+            scanner = Scanner()
+            key = addr.__str__()
+            res[key] = []
+            for p in ports:
+                scanner.scanports(key, p)
+                res[key].append(scanner.report)
     return json.dumps(res, indent=4)
 
 
