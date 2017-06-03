@@ -2,6 +2,8 @@ import argparse
 import netaddr
 import sys
 import json
+from PyCat.scanner import Scanner
+F_SCAN = True
 
 
 def command(socket, cmd):
@@ -70,9 +72,19 @@ def main(ip, port=None):
             if not portCheck(x):
                 sys.stderr.write("ERROR: Invalid port\n")
                 return json.dumps({"success": False})
-            ports.append(x)
+            ports.append(x+"-"+x)
 
-    return json.dumps({"success": True})
+    res = {}
+    res["success"] = True
+    if F_SCAN:
+        for addr in netaddr.IPNetwork(ip).iter_hosts():
+            scanner = Scanner()
+            key = addr.__str__()
+            res[key] = []
+            for p in ports:
+                scanner.scanports(key, p)
+                res[key].append(scanner.report)
+    return json.dumps(res, indent=4)
 
 
 def _main():
@@ -84,4 +96,9 @@ def _main():
 
     pycat = parser.parse_args()
 
-    main(pycat.ip, pycat.port)
+    report = main(pycat.ip, pycat.port)
+    print(report)
+
+
+if __name__ == '__main__':
+    _main()

@@ -48,7 +48,7 @@ class Scanner:
 
         self.report = {"success": True, "ports": {}, "services": {}}
 
-        for port in range(src_port, dst_port):
+        for port in range(src_port, dst_port+1):
             if self.scanport(ip, port) == 0:
                 self.report["ports"][port] = True
                 service_info = self.scanservice(ip, port)
