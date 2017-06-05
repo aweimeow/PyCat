@@ -22,21 +22,29 @@ class Scanner:
     def scanservice(self, ip, port):
         tn = telnetlib.Telnet(host=ip, port=port)
 
-        time.sleep(0.3)
-        service_info = tn.read_eager()
+        timeout = 0
+        service_info = ""
+
+        while timeout < 1 and not service_info:
+            service_info = tn.read_eager()
+            timeout += 0.1
+            time.sleep(0.1)
 
         if service_info:
             tn.close()
-            return service_info
+            return service_info.decode('utf-8')
 
         # Or Try to Connect with http Header
 
-        tn.write(b'GET / HTTP/1.0\n\n')
-        infos = [tn.read_eager().decode('utf-8') for x in range(3)]
+        tn.write(b'GET / HTTP/1.0\n\n\n')
+        while timeout < 2 and not service_info:
+            service_info = tn.read_eager()
+            timeout += 0.1
+            time.sleep(0.1)
+
         tn.close()
 
-        service_info = ''.join(infos)
-        return service_info
+        return service_info.decode('utf-8')
 
     def scanports(self, ip="127.0.0.1", ports="0-65535"):
         assert ports.count('-') == 1
@@ -53,6 +61,6 @@ class Scanner:
                 self.report["ports"][port] = True
                 service_info = self.scanservice(ip, port)
                 if service_info:
-                    self.report["services"][port] = service_info.decode()
+                    self.report["services"][port] = service_info
             else:
                 self.report["ports"][port] = False
