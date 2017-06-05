@@ -87,6 +87,17 @@ def main(ip, port=None):
     return json.dumps(res, indent=4)
 
 
+def print_report(report):
+    if report["success"]:
+        print("IP\t\tPort\tService")
+        del report["success"]
+        for ip in report:
+            for service in report[ip]:
+                for port in service["services"]:
+                    print(ip+"\t"+port+"\t"
+                            + service["services"][port].replace("\r\n", " "))
+
+
 def _main():
     "Using argparse to get ip, port from input"
     parser = argparse.ArgumentParser(description='PyCat')
@@ -97,7 +108,7 @@ def _main():
     pycat = parser.parse_args()
 
     report = main(pycat.ip, pycat.port)
-    print(report)
+    print_report(json.loads(report))
 
 
 if __name__ == '__main__':
