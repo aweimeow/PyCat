@@ -90,6 +90,8 @@ celerybeat-schedule
 .venv
 venv/
 ENV/
+# virtualenv for python 3 ver.
+venv3/
 
 # Spyder project settings
 .spyderproject
