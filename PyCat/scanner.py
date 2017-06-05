@@ -53,6 +53,6 @@ class Scanner:
                 self.report["ports"][port] = True
                 service_info = self.scanservice(ip, port)
                 if service_info:
-                    self.report["services"][port] = service_info
+                    self.report["services"][port] = service_info.decode()
             else:
                 self.report["ports"][port] = False

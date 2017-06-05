@@ -84,6 +84,7 @@ def main(ip, port=None):
             for p in ports:
                 scanner.scanports(key, p)
                 res[key].append(scanner.report)
+
     return json.dumps(res, indent=4)
 
 
